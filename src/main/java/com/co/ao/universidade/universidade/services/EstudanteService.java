@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.co.ao.universidade.universidade.DTO.estudante.EstudanteCursoProjection;
@@ -16,8 +18,8 @@ public class EstudanteService {
     @Autowired
     private EstudanteRepository estudanteRepository;
 
-    public List<Estudante> obterTodosEstudantes() {
-        return estudanteRepository.findAll();
+    public Page<Estudante> obterTodosEstudantes(PageRequest pageRequest) {
+        return estudanteRepository.findAll(pageRequest);
     }
 
     public Optional<Estudante> obterEstudante(Integer id) {
