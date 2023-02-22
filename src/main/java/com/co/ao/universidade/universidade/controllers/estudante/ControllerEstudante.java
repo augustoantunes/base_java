@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.co.ao.universidade.universidade.DTO.estudante.EstudanteCurso;
 import com.co.ao.universidade.universidade.DTO.estudante.EstudanteCursoProjection;
 import com.co.ao.universidade.universidade.models.estudante.Estudante;
 import com.co.ao.universidade.universidade.services.EstudanteService;
@@ -32,19 +34,6 @@ public class ControllerEstudante {
     @Autowired
     private EstudanteService estudanteService;
 
-    // @GetMapping
-    // public ResponseDefault<List<Estudante>> pesquisarEstudante(
-    // @RequestParam(required=false,defaultValue ="0") int page,
-    // @RequestParam(required=false,defaultValue ="0") int size,
-    // @RequestParam(required=false,defaultValue ="0") String order
-    // ) {
-
-    // PageRequest paginator = PageRequest.of(page, size,
-    // Sort.Direction.fromString("ASC"), order);
-    // return new
-    // ResponseDefault<>(estudanteService.obterTodosEstudantes(paginator));
-    // }
-
     @GetMapping
     public ResponseDefault<Page<Estudante>> buscarAlunosPaginado(
             @RequestParam(required = false, defaultValue = "0") int page,
@@ -55,33 +44,36 @@ public class ControllerEstudante {
         return new ResponseDefault<>(estudanteService.obterTodosEstudantes(pageRequest));
     }
 
-    // @GetMapping(path = "/{id}")
-    // public ResponseDefault<Optional<Estudante>> detalheEstudante(@PathVariable
-    // int id) {
-    // return new ResponseDefault<>(estudanteService.obterEstudante(id));
-    // }
+    @GetMapping(path = "/{id}")
+    public ResponseDefault<Optional<Estudante>> detalheEstudante(@PathVariable int id) {
+        return new ResponseDefault<>(estudanteService.obterEstudante(id));
+    }
 
     // @GetMapping(value = "/curso")
-    // public Iterable<EstudanteCurso> pesquisarEstudantesAll() {
-    // List<Estudante> estudantes = estudanteRepository.findAll();
+    // public Iterable<EstudanteCurso> pesquisarEstudantesAll(
+    // @RequestParam(required = false, defaultValue = "0") int page,
+    // @RequestParam(required = false, defaultValue = "10") int size,
+    // @RequestParam(required = false, defaultValue = "id") String order
+    // ) {
+    // ResponseDefault<Estudante> estudantes = estudanteRepository.findAll();
     // return estudantes.stream().map(e -> new
     // EstudanteCurso(e.getId(),e.getNome(),e.getNumero(),this.cursoRepository.buscarCurso(e.getCurso()))).collect(Collectors.toList());
     // }
 
-    // @GetMapping(value = "/curso")
-    // public ResponseDefault<List<EstudanteCursoProjection>>
-    // pesquisarEstudantesCurso() {
-    // return new ResponseDefault<>(estudanteService.obterEstudantesECursos());
-    // }
+    @GetMapping(value = "/curso")
+    public ResponseDefault<List<EstudanteCursoProjection>> pesquisarEstudantesCurso() {
+        return new ResponseDefault<>(estudanteService.obterEstudantesECursos());
+    }
 
-    // @PostMapping
-    // public ResponseDefault<Estudante> salvar(Estudante estudante) {
-    // return new ResponseDefault<Estudante>(estudanteService.salvar(estudante));
-    // }
+    @PostMapping
+    public ResponseDefault<Estudante> salvar(Estudante estudante) {
+        Estudante response = estudanteService.salvar(estudante);
+        return new ResponseDefault<>(response);
+    }
 
-    // @PutMapping
-    // public ResponseDefault<Estudante> actualizar(Estudante estudante) {
-    // return new ResponseDefault<Estudante>(estudanteService.salvar(estudante));
-    // }
+    @PutMapping
+    public ResponseDefault<Estudante> actualizar(Estudante estudante) {
+        return new ResponseDefault<>(estudanteService.salvar(estudante));
+    }
 
 }
